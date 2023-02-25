@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: masdpk-auth
+spec:
+  selector:
+    app: masdpk-auth
+  # the IP address assigned to this service is going to be accessable withing our cluster
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP

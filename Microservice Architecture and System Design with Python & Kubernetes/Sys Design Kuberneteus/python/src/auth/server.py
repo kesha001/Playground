@@ -55,11 +55,11 @@ def login():
         return "invalid credentials", 401
 
 
-@server.route("/validate", metods=["POST"])
+@server.route("/validate", methods=["POST"])
 def validate():
     """
     Gets jwt token in Authorization header, takes <credentials> part from jwt and decodes with secret key
-    returns "not authorized", 403 in case of wrong key, otherwise returns decoded jwt and 200 code
+    returns "not authorized", 403 in case of wrong key, otherwise returns decoded jwt and 200 code`
     """
 
     # jwt token should be in Authorization header

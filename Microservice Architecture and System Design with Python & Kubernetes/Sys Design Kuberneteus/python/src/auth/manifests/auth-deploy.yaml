@@ -1,0 +1,44 @@
+# configuration for kuberneteus cluster and our service
+apiVersion: apps/v1
+# Deployment enables declarative updates for Pods and ReplicaSets.
+kind: Deployment
+metadata:
+  name: masdpk-auth
+  labels:
+    app: masdpk-auth
+#  specification of the desired behavior of the Deployment
+spec:
+  # Number of desired pods. Default is 1
+  replicas: 2
+  # Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment 
+  selector:
+  #  label selector is a label query over a set of resources
+    matchLabels:
+      app: masdpk-auth
+  # The deployment strategy to use to replace existing pods with new ones.
+  strategy:
+  # Type of deployment. Can be "Recreate"(kill previous, create new) or "RollingUpdate"(gradually scale down old and scale up new).
+    type: RollingUpdate
+    rollingUpdate:
+    # The maximum number of pods that can be scheduled above the desired number of pods
+      maxSurge: 3
+  # describes the pods that will be created
+  template:
+    metadata:
+      labels:
+        app: masdpk-auth
+    # Specification of the desired behavior of the pod. 
+    spec:
+    # List of containers belonging to the pod
+      containers:
+        - name: masdpk-auth
+          image: berdanka/masdpk_auth
+          # similar to docker expose, serves as documentation, not specifying does not prevent port from exposing
+          ports:
+            - containerPort: 5000
+          # List of sources to populate environment variables in the container
+          envFrom:
+            - configMapRef:
+                name: masdpk-auth-configmap
+            - secretRef:
+                name: masdpk-auth-secret

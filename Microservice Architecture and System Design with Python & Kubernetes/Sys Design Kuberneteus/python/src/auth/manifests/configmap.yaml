@@ -1,0 +1,12 @@
+# this config map is going to set environment variables within our container (not sensetive data)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: masdpk-auth-configmap
+# data is our environment variables which will be automatically exported withing our shell when we do deployment
+data:
+  # to access local mysql server we need to reference that server from within our kuberneteus cluster
+  MYSQL_HOST: host.minikube.internal
+  MYSQL_USER: auth_user
+  MYSQL_DB: auth
+  MYSQL_PORT: "3306"
